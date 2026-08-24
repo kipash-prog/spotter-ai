@@ -9,6 +9,7 @@ POST /api/v1/route/
 import logging
 import time
 
+from drf_spectacular.utils import extend_schema, OpenApiExample, OpenApiResponse
 from rest_framework import status
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -58,6 +59,51 @@ class RoutePlannerView(APIView):
     - Exactly 1 call to ORS /v2/directions (cached on subsequent requests)
     """
 
+    @extend_schema(
+        tags=["Route Planning"],
+        summary="Plan optimal fuel stops for a US road trip",
+        description=(
+            "Given a start and finish location within the USA, returns the full driving route "
+            "along with the most cost-effective fuel stops based on current retail prices. "
+            "\n\n"
+            "**Vehicle assumptions:** 500-mile max range, 10 mpg fuel economy."
+            "\n\n"
+            "**External API calls per request:**\n"
+            "- Up to 2 × ORS geocoding (skipped if raw `lat,lon` coordinates are supplied)\n"
+            "- Exactly 1 × ORS routing (result cached for 1 hour)\n"
+            "\n\n"
+            "**Fuel stop algorithm:** Greedy cost-minimization — buys just enough fuel "
+            "to reach a cheaper station ahead; fills completely when none exists."
+        ),
+        request=RouteRequestSerializer,
+        responses={
+            200: RouteResponseSerializer,
+            400: OpenApiResponse(description="Missing or invalid input fields"),
+            422: OpenApiResponse(description="Location could not be geocoded or no fuel stations near route"),
+            502: OpenApiResponse(description="Upstream routing API call failed"),
+            503: OpenApiResponse(description="Fuel station index not loaded"),
+        },
+        examples=[
+            OpenApiExample(
+                "New York → Los Angeles",
+                summary="Cross-country trip",
+                value={"start": "New York, NY", "finish": "Los Angeles, CA"},
+                request_only=True,
+            ),
+            OpenApiExample(
+                "Chicago → Dallas",
+                summary="Midwest to Texas",
+                value={"start": "Chicago, IL", "finish": "Dallas, TX"},
+                request_only=True,
+            ),
+            OpenApiExample(
+                "Raw coordinates",
+                summary="Using lat,lon directly (skips geocoding)",
+                value={"start": "40.7128,-74.0060", "finish": "34.0522,-118.2437"},
+                request_only=True,
+            ),
+        ],
+    )
     def post(self, request: Request) -> Response:
         t0 = time.perf_counter()
 

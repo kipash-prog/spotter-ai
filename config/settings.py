@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "drf_spectacular",
     "route_planner",
 ]
 
@@ -87,6 +88,25 @@ REST_FRAMEWORK = {
     ],
     "DEFAULT_PARSER_CLASSES": [
         "rest_framework.parsers.JSONParser",
+    ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
+# Swagger / OpenAPI settings
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Spotter AI — Route Fuel Planner API",
+    "DESCRIPTION": (
+        "Plan an optimal fuel stop route between any two US locations. "
+        "The API returns the cheapest fuel stops along the route, "
+        "total cost, and a map-ready polyline — using at most 3 external API calls "
+        "(2 geocoding + 1 routing), all cached for subsequent requests."
+    ),
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+    "CONTACT": {"name": "Spotter AI Assessment"},
+    "LICENSE": {"name": "MIT"},
+    "TAGS": [
+        {"name": "Route Planning", "description": "Compute optimal fuel stops for a US road trip"},
     ],
 }
 
