@@ -72,7 +72,7 @@ A high-performance Django REST API that computes the **cost-optimal fuel stop it
 ### 1. Clone & Install Dependencies
 
 ```bash
-git clone https://github.com/your-username/spotter-ai.git
+git clone [https://github.com/your-username/spotter-ai.git](https://github.com/kipash-prog/spotter-ai/)
 cd spotter-ai
 
 # Create and activate virtual environment (optional but recommended)
