@@ -288,21 +288,3 @@ spotter-ai/
 ```
 
 ---
-
-## 📹 Postman & Loom Demo Guide
-
-When presenting the demo:
-1. **Send a POST request** to `http://localhost:8000/api/v1/route/` with:
-   ```json
-   {
-     "start": "New York, NY",
-     "finish": "Los Angeles, CA"
-   }
-   ```
-2. **Review Response**:
-   - `route.total_distance_miles` & `route.map_url`.
-   - `fuel_stops`: Note stop locations, price per gallon, gallons purchased, and individual stop costs.
-   - `total_fuel_cost` and `total_gallons`.
-3. **Highlight Efficiency**:
-   - Point out that response time is fast and only 1 routing API call was made.
-   - Run `python manage.py test` in the terminal to show all tests passing.
