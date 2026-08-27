@@ -6,7 +6,7 @@
 [![OpenAPI](https://img.shields.io/badge/OpenAPI-3.0-brightgreen.svg)](http://localhost:8000/api/docs/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-A high-performance Django REST API that computes the **cost-optimal fuel stop itinerary** for any road trip within the USA. Given a starting point and destination, it calculates the driving route, identifies the most economical fuel stops along the way based on real-world retail fuel prices, and reports the exact total fuel expenditure.
+A high-performance Django REST API that computes the **cost-optimal fuel stop itinerary** for any road trip within the USA. Given a starting point and destination, it calculates the driving route, identifies the most economical fuel stops along the way based on real world retail fuel prices, and reports the exact total fuel expenditure.
 
 ---
 
